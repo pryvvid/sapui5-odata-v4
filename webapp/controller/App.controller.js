@@ -60,7 +60,7 @@ sap.ui.define(
         const aStateTextIds = ["sortNone", "sortAscending", "sortDescending"];
 
         let sMessage;
-        let iOrder = oView.getModel("appView").getProperty("order");
+        let iOrder = oView.getModel("appView").getProperty("/order");
 
         iOrder = (iOrder + 1) % aStates.length;
         console.log(iOrder);
