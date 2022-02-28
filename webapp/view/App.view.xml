@@ -2,9 +2,13 @@
 	controllerName="sap.ui.core.tutorial.odatav4.controller.App"
 	displayBlock="true"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+>
 	<Shell>
-		<App busy="{appView>/busy}" class="sapUiSizeCompact">
+		<App
+			busy="{appView>/busy}"
+			class="sapUiSizeCompact"
+		>
 			<pages>
 				<Page title="{i18n>peoplePageTitle}">
 					<content>
@@ -14,7 +18,21 @@
 							growingThreshold="10"
 							items="{
 								path: '/People'
-							}">
+							}"
+						>
+							<headerToolbar>
+								<OverflowToolbar>
+									<content>
+										<ToolbarSpacer/>
+										<Button
+											id="refreshUsersButton"
+											icon="sap-icon://refresh"
+											press=".onRefresh"
+											tooltip="{i18n>refreshButtonText}"
+										/>
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
 							<columns>
 								<Column id="userNameColumn">
 									<Text text="{i18n>userNameLabelText}"/>

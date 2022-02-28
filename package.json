@@ -2,7 +2,7 @@
   "name": "sap.ui.core.tutorial.odatav4.01",
   "version": "1.0.0",
   "author": "SAP SE",
-  "description": "Sample: OData V4 - Step 1 - Set Up the Initial App",
+  "description": "SapUI5 OData V4 Tutorial",
   "scripts": {
     "start": "ui5 serve",
     "build": "ui5 build"
