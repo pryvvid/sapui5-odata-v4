@@ -19,7 +19,8 @@
 							items="{
 								path: '/People',
 								parameters: {
-									$count: true
+									$count: true,
+									$$updateGroupId: 'peopleGroup'
 								}
 							}"
 						>
@@ -31,12 +32,24 @@
 											id="searchField"
 											width="20%"
 											placeholder="{i18n>searchFieldPlaceholder}"
+											enabled="{= !${appView>/hasUIChanges} }"
 											search=".onSearch"
 										/>
+										<Button
+											id="addUserButton"
+											icon="sap-icon://add"
+											tooltip="{i18n>createButtonText}"
+											press=".onCreate"
+										>
+											<layoutData>
+												<OverflowToolbarLayoutData priority="NeverOverflow"/>
+											</layoutData>
+										</Button>
 										<Button
 											id="refreshUsersButton"
 											icon="sap-icon://refresh"
 											press=".onRefresh"
+											enabled="{= !${appView>/hasUIChanges} }"
 											tooltip="{i18n>refreshButtonText}"
 										/>
 										<Button
@@ -65,21 +78,54 @@
 							<items>
 								<ColumnListItem>
 									<cells>
-										<Input value="{UserName}"/>
+										<Input
+											value="{UserName}"
+											valueLiveUpdate="true"
+											change=".onInputChange"
+										/>
 									</cells>
 									<cells>
-										<Input value="{FirstName}"/>
+										<Input
+											value="{FirstName}"
+											valueLiveUpdate="true"
+											change=".onInputChange"
+										/>
 									</cells>
 									<cells>
-										<Input value="{LastName}"/>
+										<Input
+											value="{LastName}"
+											valueLiveUpdate="true"
+											change=".onInputChange"
+										/>
 									</cells>
 									<cells>
-										<Input value="{Age}"/>
+										<Input
+											value="{Age}"
+											valueLiveUpdate="true"
+											change=".onInputChange"
+										/>
 									</cells>
 								</ColumnListItem>
 							</items>
 						</Table>
 					</content>
+					<footer>
+						<Toolbar visible="{= ${appView>/hasUIChanges} }">
+							<ToolbarSpacer/>
+							<Button
+								id="saveButton"
+								type="Emphasized"
+								text="{i18n>saveButtonText}"
+								enabled="{= ${message>/}.length === 0 &amp;&amp; ${appView>/usernameEmpty} === false }"
+								press=".onSave"
+							/>
+							<Button
+								id="doneButton"
+								text="{i18n>cancelButtonText}"
+								press=".onResetChanges"
+							/>
+						</Toolbar>
+					</footer>
 				</Page>
 			</pages>
 		</App>
