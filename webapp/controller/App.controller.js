@@ -125,6 +125,20 @@ sap.ui.define(
         this._setUIChanges();
       },
 
+      onResetDataSource: function () {
+        const oModel = this.getView().getModel();
+        const oOperation = oModel.bindContext("/ResetDataSource(...)");
+        oOperation
+          .execute()
+          .then(() => {
+            oModel.refresh();
+            MessageToast.show(this._getText("sourceResetSuccessMessage"));
+          })
+          .catch((oError) => {
+            MessageBox.error(oError.message);
+          });
+      },
+
       onSave: function () {
         const fnSuccess = () => {
           this._setBusy(false);
