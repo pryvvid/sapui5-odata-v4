@@ -227,15 +227,37 @@ sap.ui.define(
       onSelectionChange: function (oEvent) {
         const oDetailArea = this.byId("detailArea");
         const oLayout = this.byId("defaultLayout");
+
         // get binding of selected item
         const oUserContext = oEvent
           .getParameters()
           .listItem.getBindingContext();
+
+        const oOldContext = oDetailArea.getBindingContext();
+        const oSearchField = this.byId("searchField");
+
+        // remove keepAlive from old context
+        if (oOldContext) {
+          oOldContext.setKeepAlive(false);
+        }
+
         // set binding
         oDetailArea.setBindingContext(oUserContext);
+
+        // set keepAlive for new context
+        oUserContext.setKeepAlive(true, function () {
+          // hides detail area when context is destroyed
+          oLayout.setSize("100%");
+          oLayout.setResizable(false);
+          oDetailArea.setVisible(false);
+          oSearchField.setWidth("20%");
+        });
+
+        // resize view
         oDetailArea.setVisible(true);
         oLayout.setSize("60%");
         oLayout.setResizable(true);
+        oSearchField.setWidth("40%");
       },
 
       _setUIChanges: function (bHasUIChanges) {
