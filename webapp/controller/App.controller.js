@@ -43,7 +43,7 @@ sap.ui.define(
         });
 
         this.getView().setModel(oViewModel, "appView");
-        this.getView().setModel(oMessageModel, "messages");
+        this.getView().setModel(oMessageModel, "message");
 
         oMessageModelBinding.attachChange(this.onMessageBindingChange, this);
         this._bTechnicalErrors = false;
@@ -69,23 +69,44 @@ sap.ui.define(
         });
       },
 
+      onDelete: function () {
+        const oSelected = this.byId("peopleList").getSelectedItem();
+        if (oSelected) {
+          oSelected
+            .getBindingContext()
+            .delete("$auto")
+            .then(
+              () => {
+                MessageToast.show(this._getText("deletionSuccessMessage"));
+              },
+              (oError) => {
+                MessageBox.error(oError.message);
+              }
+            );
+        }
+      },
+
       onInputChange: function (oEvt) {
         if (oEvt.getParameter("escPressed")) {
           this._setUIChanges();
         } else {
           this._setUIChanges(true);
-          if (
-            oEvt
-              .getSource()
-              .getParent()
-              .getBindingContext()
-              .getProperty("UserName")
-          ) {
+          const sUserName = oEvt
+            .getSource()
+            .getParent()
+            .getBindingContext()
+            .getProperty("UserName");
+          console.log("UserName", sUserName);
+          if (sUserName) {
             this.getView()
               .getModel("appView")
               .setProperty("/usernameEmpty", false);
           }
         }
+        console.log(
+          "/usernameEmpty",
+          this.getView().getModel("appView").getProperty("/usernameEmpty")
+        );
       },
 
       onRefresh: function () {
@@ -147,7 +168,7 @@ sap.ui.define(
         let iOrder = oView.getModel("appView").getProperty("/order");
 
         iOrder = (iOrder + 1) % aStates.length;
-        console.log(iOrder);
+        console.log("iOrder", iOrder);
 
         const sOrder = aStates[iOrder];
 
@@ -198,6 +219,7 @@ sap.ui.define(
         }
         const oModel = this.getView().getModel("appView");
         oModel.setProperty("/hasUIChanges", bHasUIChanges);
+        console.log("hasUIChanges", oModel.getProperty("/hasUIChanges"));
       },
 
       _setBusy: function (bIsBusy) {
