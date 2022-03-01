@@ -224,6 +224,20 @@ sap.ui.define(
         bMessageOpen = true;
       },
 
+      onSelectionChange: function (oEvent) {
+        const oDetailArea = this.byId("detailArea");
+        const oLayout = this.byId("defaultLayout");
+        // get binding of selected item
+        const oUserContext = oEvent
+          .getParameters()
+          .listItem.getBindingContext();
+        // set binding
+        oDetailArea.setBindingContext(oUserContext);
+        oDetailArea.setVisible(true);
+        oLayout.setSize("60%");
+        oLayout.setResizable(true);
+      },
+
       _setUIChanges: function (bHasUIChanges) {
         if (this._bTechnicalErrors) {
           // If there is currently a technical error, then force 'true'.
